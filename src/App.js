@@ -12,16 +12,15 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        {
-          isLoged ?
+      
           <Route path='/home'>
-            <HomePage newUser={newUser} />
+            <HomePage newUser={newUser} isLoged={isLoged} />
           </Route>
-          :
+          
           <Route exact path='/'>
-            <Form setNewUser={setNewUser} setIsLoged={setIsLoged} />
+            <Form setNewUser={setNewUser} setIsLoged={setIsLoged} isLoged={isLoged}/>
           </Route>
-        }   
+         
       </Switch>
     </div>
   );

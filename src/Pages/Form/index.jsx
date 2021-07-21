@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import { useForm } from "react-hook-form";
 import { yupResolver} from '@hookform/resolvers/yup';
-import { Button, Grid, Paper, TextField } from '@material-ui/core';
+import { Button, Grid, Paper, TextField, List, ListItemText, FormHelperText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     formContainer: {
@@ -13,25 +13,35 @@ const useStyles = makeStyles((theme) => ({
       '& > *': {
         margin: theme.spacing(1),
         width: theme.spacing(30),
-        height: theme.spacing(35),
+        height: theme.spacing(45),
       },
     },
     gridContainer: {
         width: '100vw',
         height: '100vh',
-        justifyContent: 'Center'
+        justifyContent: 'Center',
+
     },
     button: {
-        marginTop: '30px',
+        marginTop: '130px',
+        position: 'absolute',
+        left: '4rem',
+        bottom: '2rem',
     },
     form: {
         marginTop: '10px',
-    }
+        position: 'relative',
+
+    },
+    listItemText: {
+        fontSize: '0.7rem',
+    },
   }));
 
-export default function Form ({setNewUser, setIsLoged}) {
-
+export default function Form ({setNewUser, setIsLoged, isLoged}) {
+    const history = useHistory();
     const classes = useStyles();
+  
     const formSchema = yup.object().shape({
         name: yup
         .string()
@@ -46,12 +56,13 @@ export default function Form ({setNewUser, setIsLoged}) {
         .string()
         .required('Confirme sua senha') ,
     })
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, required } } = useForm({
         resolver: yupResolver(formSchema), 
     })
     const handleSubmitData = (data) => {
         setNewUser(data)
         setIsLoged(true)
+        history.push('/home')
     }
     return(
         <Grid className={classes.gridContainer}container justifyContent="center" alignItems="center">
@@ -59,33 +70,34 @@ export default function Form ({setNewUser, setIsLoged}) {
                     <form className={classes.form} onSubmit={handleSubmit(handleSubmitData)} >
                         <TextField 
                             {...register('name')}
-                            required
                             label='nome'
-                            // error
+                            error = {errors.name? true : false}
+                            helperText = {errors.name?.message}
+
                          />
-                         {errors.name?.message}
                         <TextField
                             {...register('email')}
-                            required
-                            // error
                             label='e-mail'
                             type='email'
+                            error = {errors.email? true : false}
+                            helperText = {errors.email?.message}
                         />
                         <TextField
                             {...register('password')}
-                            required
-                            // error
+                            error = {errors.password? true : false}
                             label='senha'
                             type='password'
+                            helperText = {errors.password?.message}
+
                         />
                         <TextField
                             {...register('confirmPassword')}
-                            required
-                            // error
+                            error = {errors.confirmPassword? true : false}
                             label='confirmar senha'
                             type='password'
+                            helperText = {errors.confirmPassword?.message}
+
                         />
-                        <Link to='/login'>
                         <Button
                             type='subimit'
                             className= {classes.button}
@@ -94,7 +106,6 @@ export default function Form ({setNewUser, setIsLoged}) {
                         >
                             Registrar
                         </Button>
-                        </Link>
                     </form>
                 </Paper>
         </Grid>
