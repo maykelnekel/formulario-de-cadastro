@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { useForm } from "react-hook-form";
 import { yupResolver} from '@hookform/resolvers/yup';
-import { Button, Grid, Paper, TextField, List, ListItemText, FormHelperText } from '@material-ui/core';
+import { Typography, Button, Grid, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 
@@ -13,28 +13,27 @@ const useStyles = makeStyles((theme) => ({
       '& > *': {
         margin: theme.spacing(1),
         width: theme.spacing(30),
-        height: theme.spacing(45),
+        height: theme.spacing(54),
       },
     },
     gridContainer: {
         width: '100vw',
         height: '100vh',
         justifyContent: 'Center',
-
+        '& .MuiTextField-root': {
+            margin: theme.spacing(2),
+          },
     },
     button: {
-        marginTop: '130px',
         position: 'absolute',
         left: '4rem',
         bottom: '2rem',
     },
     form: {
-        marginTop: '10px',
         position: 'relative',
-
     },
-    listItemText: {
-        fontSize: '0.7rem',
+    root: {
+        
     },
   }));
 
@@ -51,12 +50,17 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
         .required('E-mail obrigatório'),
         password: yup
         .string()
-        .required('Senha obrigatória'),
+        .required('Senha obrigatória')
+        .matches(
+            /^((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z A-Z]){1}).*$/,
+          "Ao menos 8 caracteres, letra, número e caracter especial"
+        ),
         confirmPassword: yup
         .string()
-        .required('Confirme sua senha') ,
+        .required('Confirme sua senha')
+        .oneOf([yup.ref('password'), null],'As senhas devem coincidir') ,
     })
-    const { register, handleSubmit, formState: { errors, required } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema), 
     })
     const handleSubmitData = (data) => {
@@ -65,7 +69,12 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
         history.push('/home')
     }
     return(
-        <Grid className={classes.gridContainer}container justifyContent="center" alignItems="center">
+        <Grid className={classes.gridContainer}
+        container
+        justifyContent="space-between"
+        direction="column"
+        alignItems="center">
+                <Typography variant='h4' color="primary">Formulário de cadastro!</Typography>
                 <Paper className={classes.formContainer} elevation={3}>
                     <form className={classes.form} onSubmit={handleSubmit(handleSubmitData)} >
                         <TextField 
@@ -73,7 +82,6 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
                             label='nome'
                             error = {errors.name? true : false}
                             helperText = {errors.name?.message}
-
                          />
                         <TextField
                             {...register('email')}

@@ -12,7 +12,6 @@ function App() {
   return (
     <div className="App">
       <Switch>
-      
           <Route path='/home'>
             <HomePage newUser={newUser} isLoged={isLoged} />
           </Route>
