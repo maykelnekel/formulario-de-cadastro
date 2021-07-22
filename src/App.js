@@ -9,10 +9,11 @@ function App() {
   const [newUser, setNewUser] = useState({})
   const [isLoged, setIsLoged] = useState(false)
   console.log(newUser)
+  
   return (
     <div className="App">
       <Switch>
-          <Route path='/home'>
+          <Route path='/home/:user'>
             <HomePage newUser={newUser} isLoged={isLoged} />
           </Route>
           

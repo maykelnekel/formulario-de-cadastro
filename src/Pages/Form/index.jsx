@@ -6,6 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
+    container: {
+        width: '100vw',
+        height: '100vh',
+    },
     formContainer: {
       display: 'flex',
       flexWrap: 'wrap',
@@ -17,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     gridContainer: {
-        width: '100vw',
-        height: '100vh',
-        justifyContent: 'Center',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'space-evenly',
+        textAlign: 'center',
         '& .MuiTextField-root': {
-            margin: theme.spacing(2),
+            margin: theme.spacing(1),
           },
     },
     button: {
@@ -36,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
         
     },
   }));
-
-export default function Form ({setNewUser, setIsLoged, isLoged}) {
+  
+export default function Form ({setNewUser, setIsLoged}) {
     const history = useHistory();
     const classes = useStyles();
-  
+    
     const formSchema = yup.object().shape({
         name: yup
         .string()
@@ -66,9 +71,12 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
     const handleSubmitData = (data) => {
         setNewUser(data)
         setIsLoged(true)
-        history.push('/home')
+        history.push(`/home/${data.name}`)
     }
     return(
+        <Grid className={classes.container} >
+
+        
         <Grid className={classes.gridContainer}
         container
         justifyContent="space-between"
@@ -96,7 +104,6 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
                             label='senha'
                             type='password'
                             helperText = {errors.password?.message}
-
                         />
                         <TextField
                             {...register('confirmPassword')}
@@ -104,7 +111,6 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
                             label='confirmar senha'
                             type='password'
                             helperText = {errors.confirmPassword?.message}
-
                         />
                         <Button
                             type='subimit'
@@ -116,6 +122,7 @@ export default function Form ({setNewUser, setIsLoged, isLoged}) {
                         </Button>
                     </form>
                 </Paper>
+        </Grid>
         </Grid>
     )
 }

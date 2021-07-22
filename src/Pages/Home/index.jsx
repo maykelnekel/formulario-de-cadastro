@@ -1,18 +1,19 @@
-import { Button, CardHeader, Grid, Paper, Typography } from "@material-ui/core"
-import { Link, Redirect, useHistory} from "react-router-dom"
+import { Button, Grid, Paper, Typography } from "@material-ui/core"
+import { Link, Redirect, useParams} from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles';
 
 
 export default function HomePage ({newUser, isLoged}) {
-   
+    const user = useParams();
     const useStyles = makeStyles((theme) => ({
         homeContainer: {
             height: '100vh',
             width: '100vw',
+            
         },
         contentContainer: {
-            height: '60vh',
-            width: '60vw',
+            height: '100%',
+            width: '100%',
             textAlign: 'center',
         },
         paper: {
@@ -35,9 +36,6 @@ export default function HomePage ({newUser, isLoged}) {
        return <Redirect to='/'/>
     }
     return(
-        <div height='100vh'>
-
-      
         <Grid
         className={classes.homeContainer}
         container
@@ -49,7 +47,7 @@ export default function HomePage ({newUser, isLoged}) {
         className={classes.contentContainer}
         container
         direction="column"
-        justifyContent="space-between"
+        justifyContent="space-evenly"
         alignItems="center"
         >
                 <Typography variant='h3' color="primary">Bem vindo {newUser.name}!</Typography>
@@ -66,6 +64,5 @@ export default function HomePage ({newUser, isLoged}) {
                 </Link>
             </Grid>
         </Grid>
-        </div>
     )
 }
