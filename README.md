@@ -18,11 +18,11 @@ _A responsive project of a register form, using materialUI and Yup._
 - HTML/CSS/JavaScript
 
 #### Libraries:
-- ReactJS
-- Yup
-- React hook form
-- React router DOM
-- Material UI
+- [ReactJS](https://reactjs.org/)
+- [Yup](https://github.com/jquense/yup)
+- [React hook form](https://react-hook-form.com/)
+- [React router DOM](https://react-hook-form.com/)
+- [Material UI](https://material-ui.com/)
 
 <br>
 
